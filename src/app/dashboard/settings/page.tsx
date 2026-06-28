@@ -11,7 +11,7 @@ export default function SettingsPage() {
             <p className="text-xs text-gray-500 mb-0.5">Email address</p>
             <p className="text-sm font-medium text-gray-900">user@example.com</p>
           </div>
-          <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:border-blue-600 hover:text-blue-600 transition-colors">
+          <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:border-orange-500 hover:text-orange-500 transition-colors">
             Change Password
           </button>
         </div>

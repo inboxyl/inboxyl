@@ -26,7 +26,7 @@ export default function UploadPage() {
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
         className={`border-2 border-dashed rounded-2xl p-16 flex flex-col items-center justify-center cursor-pointer transition-colors ${
-          dragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+          dragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'
         }`}
       >
         <div className="text-5xl mb-4">📁</div>
@@ -56,7 +56,7 @@ export default function UploadPage() {
 
       <button
         disabled={!file}
-        className="w-full mt-6 bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="w-full mt-6 bg-orange-500 text-white py-3 rounded-xl text-sm font-semibold hover:bg-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Upload
       </button>

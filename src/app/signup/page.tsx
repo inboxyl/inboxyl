@@ -44,7 +44,7 @@ export default function SignupPage() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="ornek@mail.com"
             />
           </div>
@@ -55,21 +55,21 @@ export default function SignupPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSignup()}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="En az 6 karakter"
             />
           </div>
           <button
             onClick={handleSignup}
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 disabled:opacity-50"
           >
             {loading ? 'Kayıt olunuyor...' : 'Kayıt ol'}
           </button>
         </div>
         <p className="text-center text-sm text-gray-500 mt-6">
           Zaten hesabın var mı?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">Giriş yap</Link>
+          <Link href="/login" className="text-orange-500 hover:underline">Giriş yap</Link>
         </p>
       </div>
     </div>

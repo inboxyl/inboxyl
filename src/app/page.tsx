@@ -9,12 +9,12 @@ export default function Home() {
         <span className="text-xl font-800 tracking-tight font-extrabold">Inboxyl</span>
         <div className="flex items-center gap-4">
           <Link href="/login" className="text-sm text-gray-500 hover:text-gray-900">Sign in</Link>
-          <Link href="/signup" className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg font-semibold hover:bg-blue-700">Get Started</Link>
+          <Link href="/signup" className="bg-orange-500 text-white text-sm px-4 py-2 rounded-lg font-semibold hover:bg-orange-600">Get Started</Link>
         </div>
       </nav>
 
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
         <div className="relative max-w-6xl mx-auto px-8 py-28 flex flex-col md:flex-row items-center gap-16">
           <div className="flex-1 text-left">
@@ -24,20 +24,20 @@ export default function Home() {
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
               Leave your job.<br />
-              <span className="text-blue-200">Keep your contacts.</span>
+              <span className="text-orange-200">Keep your contacts.</span>
             </h1>
-            <p className="text-xl text-blue-100 mb-10 max-w-xl leading-relaxed">
+            <p className="text-xl text-orange-100 mb-10 max-w-xl leading-relaxed">
               Upload your Outlook or Thunderbird mailbox file. We organize every email, contact, and attachment — forever yours.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/signup" className="bg-white text-blue-700 font-bold px-8 py-4 rounded-xl text-lg hover:bg-blue-50 transition">
+              <Link href="/signup" className="bg-white text-orange-600 font-bold px-8 py-4 rounded-xl text-lg hover:bg-orange-50 transition">
                 Get Started Free →
               </Link>
               <a href="#how" className="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-white/10 transition">
                 See how it works
               </a>
             </div>
-            <div className="mt-12 flex items-center gap-8 text-sm text-blue-200">
+            <div className="mt-12 flex items-center gap-8 text-sm text-orange-200">
               <span>✓ No email password needed</span>
               <span>✓ PST & MBOX supported</span>
               <span>✓ Export to Excel anytime</span>
@@ -62,12 +62,26 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1484807352052-23338990c6c6?w=600" alt="Export from Outlook" className="rounded-2xl shadow-lg w-full object-cover h-64" />
+              <img src="https://images.unsplash.com/photo-1484807352052-23338990c6c6?w=600" alt="Export from your email client" className="rounded-2xl shadow-lg w-full object-cover h-64" />
             </div>
             <div className="flex-1">
-              <div className="text-5xl font-extrabold text-blue-100 mb-2">01</div>
-              <h3 className="text-2xl font-bold mb-3">Export from Outlook</h3>
-              <p className="text-gray-500 leading-relaxed">In Outlook, go to <strong>File → Open & Export → Import/Export</strong>. Choose "Export to a File" and save as a <strong>.pst</strong> file. This contains all your emails, folders, and attachments.</p>
+              <div className="text-5xl font-extrabold text-orange-100 mb-2">01</div>
+              <h3 className="text-2xl font-bold mb-3">Export from your email client</h3>
+              <p className="text-gray-500 leading-relaxed">Export your mailbox from any email client as a <strong>.pst</strong> or <strong>.mbox</strong> file.</p>
+              <ul className="mt-4 space-y-2">
+                {[
+                  'Outlook: File → Open & Export → Import/Export → "Export to a File" → .pst olarak kaydet. Tüm klasörleri, ekleri ve kişileri içerir.',
+                  "Gmail: takeout.google.com → Mail seç → .mbox formatında indir. Tüm etiketleri ve konuşmaları içerir.",
+                  "Thunderbird: Sol panelde inbox'a sağ tıkla → Export → .mbox olarak kaydet.",
+                  "Apple Mail: Üst menü → Mailbox → Export Mailbox → .mbox olarak kaydet.",
+                  "Outlook.com / Hotmail: Outlook uygulamasına bağlan → aynı şekilde .pst export al.",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-500">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
@@ -75,36 +89,53 @@ export default function Home() {
           <div className="flex flex-col md:flex-row-reverse items-center gap-10">
             <div className="flex-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?w=600" alt="Export from Thunderbird or Gmail" className="rounded-2xl shadow-lg w-full object-cover h-64" />
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600" alt="Upload to Inboxyl" className="rounded-2xl shadow-lg w-full object-cover h-64" />
             </div>
             <div className="flex-1">
-              <div className="text-5xl font-extrabold text-blue-100 mb-2">02</div>
-              <h3 className="text-2xl font-bold mb-3">Or export from Gmail, Thunderbird & Apple Mail</h3>
-              <p className="text-gray-500 leading-relaxed"><strong>Gmail:</strong> Use <a href="https://takeout.google.com" className="text-blue-600 underline">Google Takeout</a> and select Mail → download as <strong>.mbox</strong>. <strong>Thunderbird:</strong> Right-click your inbox → Export. <strong>Apple Mail:</strong> Mailbox → Export Mailbox.</p>
+              <div className="text-5xl font-extrabold text-orange-100 mb-2">02</div>
+              <h3 className="text-2xl font-bold mb-3">Upload to Inboxyl</h3>
+              <p className="text-gray-500 leading-relaxed">Drag and drop your <strong>.pst</strong> or <strong>.mbox</strong> file. We parse every email, folder, and attachment automatically — no password required.</p>
             </div>
           </div>
 
           {/* Step 3 */}
           <div className="flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600" alt="Upload to Inboxyl" className="rounded-2xl shadow-lg w-full object-cover h-64" />
+              <div className="rounded-2xl border border-gray-200 shadow-lg overflow-hidden bg-white">
+                <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400"/>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400"/>
+                  <div className="w-3 h-3 rounded-full bg-green-400"/>
+                  <span className="ml-3 text-xs text-gray-400">Inboxyl — Companies</span>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {[
+                    { company: "google.com", emails: "1,240", last: "Jun 2025", color: "bg-blue-100 text-blue-700" },
+                    { company: "apple.com", emails: "867", last: "May 2025", color: "bg-gray-100 text-gray-700" },
+                    { company: "stripe.com", emails: "342", last: "Apr 2025", color: "bg-purple-100 text-purple-700" },
+                    { company: "notion.so", emails: "198", last: "Mar 2025", color: "bg-green-100 text-green-700" },
+                    { company: "figma.com", emails: "134", last: "Jan 2025", color: "bg-pink-100 text-pink-700" },
+                  ].map((row) => (
+                    <div key={row.company} className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${row.color}`}>{row.company}</span>
+                      </div>
+                      <div className="flex items-center gap-6 text-xs text-gray-400">
+                        <span>{row.emails} emails</span>
+                        <span>{row.last}</span>
+                        <span className="text-orange-500 font-medium">Export →</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-gray-50 border-t border-gray-200 px-4 py-2 flex justify-between items-center">
+                  <span className="text-xs text-gray-400">2,781 emails · 4.2 GB</span>
+                  <button className="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-semibold">Download Excel + ZIP</button>
+                </div>
+              </div>
             </div>
             <div className="flex-1">
-              <div className="text-5xl font-extrabold text-blue-100 mb-2">03</div>
-              <h3 className="text-2xl font-bold mb-3">Upload to Inboxyl</h3>
-              <p className="text-gray-500 leading-relaxed">Drag and drop your <strong>.pst</strong> or <strong>.mbox</strong> file. We parse every email, folder, and attachment automatically — organized by company and contact.</p>
-            </div>
-          </div>
-
-          {/* Step 4 */}
-          <div className="flex flex-col md:flex-row-reverse items-center gap-10">
-            <div className="flex-1">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600" alt="Search and export" className="rounded-2xl shadow-lg w-full object-cover h-64" />
-            </div>
-            <div className="flex-1">
-              <div className="text-5xl font-extrabold text-blue-100 mb-2">04</div>
+              <div className="text-5xl font-extrabold text-orange-100 mb-2">03</div>
               <h3 className="text-2xl font-bold mb-3">Search, browse and export</h3>
               <p className="text-gray-500 leading-relaxed">Your emails are organized by company and contact. Search by sender, date or subject. Export everything to <strong>Excel + ZIP</strong> with attachment codes anytime.</p>
             </div>
@@ -126,18 +157,18 @@ export default function Home() {
               { name: "Business", gb: "250 GB", price: "€39.99" },
               { name: "Enterprise", gb: "1 TB", price: "€69.99" },
             ].map((plan) => (
-              <div key={plan.name} className={`relative bg-white rounded-2xl p-6 shadow-sm border-2 ${plan.popular ? "border-blue-600" : "border-gray-100"}`}>
-                {plan.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Most popular</div>}
+              <div key={plan.name} className={`relative bg-white rounded-2xl p-6 shadow-sm border-2 ${plan.popular ? "border-orange-500" : "border-gray-100"}`}>
+                {plan.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most popular</div>}
                 <div className="text-sm font-semibold text-gray-400 mb-1">{plan.name}</div>
                 <div className="text-3xl font-extrabold mb-1">{plan.price}</div>
                 <div className="text-sm text-gray-400 mb-5">per month · {plan.gb}</div>
-                <Link href="/signup" className={`block text-center py-2.5 rounded-lg text-sm font-semibold transition ${plan.popular ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                <Link href="/signup" className={`block text-center py-2.5 rounded-lg text-sm font-semibold transition ${plan.popular ? "bg-orange-500 text-white hover:bg-orange-600" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
                   Get started
                 </Link>
               </div>
             ))}
           </div>
-          <p className="text-center text-gray-400 text-sm mt-8">Need more than 1 TB? <a href="mailto:hello@inboxyl.com" className="text-blue-600 hover:underline">Contact us</a></p>
+          <p className="text-center text-gray-400 text-sm mt-8">Need more than 1 TB? <a href="mailto:hello@inboxyl.com" className="text-orange-500 hover:underline">Contact us</a></p>
         </div>
       </section>
 

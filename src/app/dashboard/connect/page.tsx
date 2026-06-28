@@ -24,7 +24,7 @@ export default function ConnectPage() {
             value={form.email}
             onChange={handleChange}
             placeholder="you@example.com"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
         </div>
 
@@ -36,7 +36,7 @@ export default function ConnectPage() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
         </div>
 
@@ -48,7 +48,7 @@ export default function ConnectPage() {
             value={form.imap}
             onChange={handleChange}
             placeholder="imap.gmail.com"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
         </div>
 
@@ -60,11 +60,11 @@ export default function ConnectPage() {
             value={form.port}
             onChange={handleChange}
             placeholder="993"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
         </div>
 
-        <button className="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors mt-2">
+        <button className="w-full bg-orange-500 text-white py-3 rounded-xl text-sm font-semibold hover:bg-orange-600 transition-colors mt-2">
           Start Import
         </button>
 

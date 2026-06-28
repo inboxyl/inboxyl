@@ -42,12 +42,12 @@ export default function CompaniesPage() {
                 name={name}
                 value={filters[name as keyof typeof filters]}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
           ))}
         </div>
-        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
+        <button className="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors">
           Search
         </button>
       </div>
@@ -71,7 +71,7 @@ export default function CompaniesPage() {
                 onClick={() => router.push(`/dashboard/companies/${domain}`)}
                 className="cursor-pointer hover:bg-gray-50 transition-colors"
               >
-                <td className="px-6 py-4 font-medium text-blue-600">{domain}</td>
+                <td className="px-6 py-4 font-medium text-orange-500">{domain}</td>
                 <td className="px-6 py-4 text-gray-900">{name}</td>
                 <td className="px-6 py-4 text-gray-500">{firstEmail}</td>
                 <td className="px-6 py-4 text-gray-500">{lastEmail}</td>

@@ -18,7 +18,7 @@ export default function DashboardPage() {
               <p className="text-sm font-semibold text-gray-900 mb-1">user@gmail.com connected</p>
               <p className="text-xs text-gray-500 mb-1">Jan 2020 to Jun 2025</p>
               <p className="text-xs text-gray-500 mb-6">4,521 emails · 2.3 GB</p>
-              <button className="text-sm border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors">
+              <button className="text-sm border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-orange-500 hover:text-orange-500 transition-colors">
                 Re-import
               </button>
             </>
@@ -30,7 +30,7 @@ export default function DashboardPage() {
               </p>
               <Link
                 href="/dashboard/connect"
-                className="inline-block bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-block bg-orange-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors"
               >
                 Connect Mail
               </Link>
@@ -46,7 +46,7 @@ export default function DashboardPage() {
               <p className="text-sm font-semibold text-gray-900 mb-1">archive.pst uploaded</p>
               <p className="text-xs text-gray-500 mb-1">Mar 2018 to Dec 2022</p>
               <p className="text-xs text-gray-500 mb-6">12,840 emails · 8.7 GB</p>
-              <button className="text-sm border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors">
+              <button className="text-sm border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-orange-500 hover:text-orange-500 transition-colors">
                 Re-upload
               </button>
             </>
@@ -58,7 +58,7 @@ export default function DashboardPage() {
               </p>
               <Link
                 href="/dashboard/upload"
-                className="inline-block bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-block bg-orange-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors"
               >
                 Upload File
               </Link>
