@@ -61,7 +61,7 @@ export async function GET() {
   const xlsxBuffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
   zip.file('emails.xlsx', xlsxBuffer)
 
-  const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' })
+  const zipBuffer = await zip.generateAsync({ type: 'uint8array' })
 
   return new NextResponse(zipBuffer, {
     headers: {
