@@ -25,31 +25,49 @@ export default function CompaniesPage() {
   }, [])
 
   async function loadCompanies() {
+    setLoading(true)
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) { router.push('/login'); return }
 
-    const { data } = await supabase
+    const { data: companiesData } = await supabase
       .from('companies')
       .select('id, domain, name')
       .eq('user_id', session.user.id)
       .order('domain')
 
-    if (!data) { setLoading(false); return }
+    if (!companiesData) { setLoading(false); return }
 
-    const enriched = await Promise.all(data.map(async (c) => {
-      const { data: emails } = await supabase
-        .from('emails')
-        .select('sent_at')
-        .eq('company_id', c.id)
-        .order('sent_at', { ascending: true })
+    let emailQuery = supabase
+      .from('emails')
+      .select('company_id, sent_at')
+      .eq('user_id', session.user.id)
 
-      return {
-        ...c,
-        email_count: emails?.length || 0,
-        first_email: emails?.[0]?.sent_at?.slice(0, 10) || '-',
-        last_email: emails?.[emails.length - 1]?.sent_at?.slice(0, 10) || '-',
-      }
-    }))
+    if (search.sender) emailQuery = emailQuery.ilike('sender', `%${search.sender}%`)
+    if (search.recipient) emailQuery = emailQuery.contains('recipients', [search.recipient])
+    if (search.subject) emailQuery = emailQuery.ilike('subject', `%${search.subject}%`)
+    if (search.body) emailQuery = emailQuery.ilike('body', `%${search.body}%`)
+    if (search.dateFrom) emailQuery = emailQuery.gte('sent_at', search.dateFrom)
+    if (search.dateTo) emailQuery = emailQuery.lte('sent_at', search.dateTo)
+
+    const { data: emailsData } = await emailQuery
+
+    const emailsByCompany = (emailsData || []).reduce((acc, e) => {
+      if (!acc[e.company_id]) acc[e.company_id] = []
+      acc[e.company_id].push(e.sent_at)
+      return acc
+    }, {} as Record<string, string[]>)
+
+    const enriched = companiesData
+      .map(c => {
+        const dates = emailsByCompany[c.id] || []
+        return {
+          ...c,
+          email_count: dates.length,
+          first_email: dates.length ? dates[0].slice(0, 10) : '-',
+          last_email: dates.length ? dates[dates.length - 1].slice(0, 10) : '-',
+        }
+      })
+      .filter(c => c.email_count > 0)
 
     setCompanies(enriched)
     setLoading(false)
