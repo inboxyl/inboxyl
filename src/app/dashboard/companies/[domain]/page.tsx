@@ -1,50 +1,83 @@
-const DUMMY_EMAILS = [
-  { id: 1, direction: 'received', from: 'Sarah Johnson', subject: 'Q3 Partnership Proposal', date: 'Mar 12, 2024', body: 'Hi, I wanted to reach out regarding a potential partnership opportunity for Q3. We believe our platforms could work great together...' },
-  { id: 2, direction: 'sent', from: 'You', subject: 'Re: Q3 Partnership Proposal', date: 'Mar 13, 2024', body: "Thanks Sarah, this sounds very interesting. Could you send over more details about what you have in mind? I'd love to schedule a call..." },
-  { id: 3, direction: 'received', from: 'Sarah Johnson', subject: 'Re: Q3 Partnership Proposal', date: 'Mar 13, 2024', body: 'Absolutely! I\'ll have our team put together a detailed brief. In the meantime, here are some high-level thoughts on integration...' },
-  { id: 4, direction: 'sent', from: 'You', subject: 'Meeting invite — Wednesday 3pm', date: 'Mar 14, 2024', body: "I've sent a calendar invite for Wednesday at 3pm PST. Looking forward to connecting and exploring this further with your team..." },
-  { id: 5, direction: 'received', from: 'Mike Chen', subject: 'Invoice #4521 — April', date: 'Apr 2, 2024', body: 'Please find attached the invoice for April services. Payment is due within 30 days. Let me know if you have any questions...' },
-  { id: 6, direction: 'sent', from: 'You', subject: 'Re: Invoice #4521 — April', date: 'Apr 3, 2024', body: "Got it, thank you Mike. I'll process this today and you should see the payment within 5 business days. Appreciate the quick turnaround..." },
-  { id: 7, direction: 'received', from: 'Sarah Johnson', subject: 'Partnership update', date: 'May 10, 2024', body: "Just a quick update — our legal team has reviewed the terms and we're ready to move forward. Excited to get this across the finish line!" },
-]
+'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
-export default async function CompanyDetailPage({ params }: { params: Promise<{ domain: string }> }) {
-  const { domain } = await params
+interface Email {
+  id: string
+  sender: string
+  recipients: string[]
+  subject: string
+  body: string
+  sent_at: string
+}
+
+export default function CompanyDetailPage({ params }: { params: { domain: string } }) {
+  const [emails, setEmails] = useState<Email[]>([])
+  const [loading, setLoading] = useState(true)
+  const [userEmail, setUserEmail] = useState('')
+  const router = useRouter()
+  const supabase = createClient()
+
+  useEffect(() => {
+    loadEmails()
+  }, [])
+
+  async function loadEmails() {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) { router.push('/login'); return }
+    setUserEmail(session.user.email || '')
+
+    const { data: company } = await supabase
+      .from('companies')
+      .select('id')
+      .eq('user_id', session.user.id)
+      .eq('domain', decodeURIComponent(params.domain))
+      .single()
+
+    if (!company) { setLoading(false); return }
+
+    const { data } = await supabase
+      .from('emails')
+      .select('id, sender, recipients, subject, body, sent_at')
+      .eq('company_id', company.id)
+      .order('sent_at', { ascending: true })
+
+    setEmails(data || [])
+    setLoading(false)
+  }
+
+  function isSent(email: Email) {
+    return email.sender?.toLowerCase().includes(userEmail.toLowerCase())
+  }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">{domain}</h1>
-        <p className="text-gray-500 text-sm">{DUMMY_EMAILS.length} emails in archive</p>
-      </div>
+    <div className="max-w-3xl mx-auto py-10 px-6">
+      <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-700 mb-4 block">← Back</button>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">{decodeURIComponent(params.domain)}</h1>
+      <p className="text-sm text-gray-400 mb-8">{emails.length} emails</p>
 
-      {/* Chat view */}
-      <div className="space-y-4 max-w-2xl">
-        {DUMMY_EMAILS.map(({ id, direction, from, subject, date, body }) => {
-          const isSent = direction === 'sent'
-          return (
-            <div key={id} className={`flex ${isSent ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`max-w-sm rounded-2xl px-4 py-3 shadow-sm ${
-                  isSent
-                    ? 'bg-blue-600 text-white rounded-br-sm'
-                    : 'bg-white border border-gray-200 text-gray-900 rounded-bl-sm'
-                }`}
-              >
-                <div className={`text-xs font-semibold mb-1 ${isSent ? 'text-blue-100' : 'text-gray-500'}`}>
-                  {from} · {date}
-                </div>
-                <div className={`text-sm font-medium mb-1 ${isSent ? 'text-white' : 'text-gray-900'}`}>
-                  {subject}
-                </div>
-                <div className={`text-xs leading-relaxed ${isSent ? 'text-blue-100' : 'text-gray-500'}`}>
-                  {body.slice(0, 100)}{body.length > 100 ? '…' : ''}
-                </div>
+      {loading ? (
+        <p className="text-gray-400 text-sm">Loading...</p>
+      ) : emails.length === 0 ? (
+        <p className="text-gray-400 text-sm">No emails found.</p>
+      ) : (
+        <div className="space-y-3">
+          {emails.map(email => (
+            <div key={email.id} className={`flex ${isSent(email) ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[75%] rounded-2xl px-4 py-3 ${isSent(email) ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-900'}`}>
+                <p className={`text-xs mb-1 ${isSent(email) ? 'text-orange-100' : 'text-gray-400'}`}>
+                  {isSent(email) ? 'You' : email.sender} · {email.sent_at?.slice(0, 10)}
+                </p>
+                <p className="font-semibold text-sm mb-1">{email.subject}</p>
+                <p className={`text-sm ${isSent(email) ? 'text-orange-50' : 'text-gray-600'}`}>
+                  {email.body?.slice(0, 200)}{email.body?.length > 200 ? '...' : ''}
+                </p>
               </div>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
