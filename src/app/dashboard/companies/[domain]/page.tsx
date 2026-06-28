@@ -211,6 +211,7 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ domain
               </div>
             )}
             <div className="px-6 py-4 border-t border-gray-100">
+              <p className="px-6 pt-4 text-xs text-gray-400">Email will be forwarded to your account address.</p>
               <SendButton emailId={selected.id} />
             </div>
           </div>

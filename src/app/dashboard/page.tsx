@@ -34,11 +34,11 @@ export default function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <p className="text-sm text-gray-400 mb-1">Companies</p>
+          <p className="text-sm text-gray-400 mb-1">🏢 Companies</p>
           <p className="text-4xl font-extrabold text-gray-900">{loading ? '...' : stats.companies}</p>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <p className="text-sm text-gray-400 mb-1">Emails</p>
+          <p className="text-sm text-gray-400 mb-1">📧 Emails</p>
           <p className="text-4xl font-extrabold text-gray-900">{loading ? '...' : stats.emails}</p>
         </div>
       </div>

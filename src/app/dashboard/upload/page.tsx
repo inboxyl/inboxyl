@@ -61,6 +61,7 @@ export default function UploadPage() {
         }),
       })
 
+      await supabase.from('archives').update({ status: 'done' }).eq('id', archive.id)
       setStatus('done')
     } catch (e: any) {
       setError(e.message)
