@@ -28,22 +28,22 @@ export default function LoginPage() {
       </nav>
       <div className="flex-1 flex items-center justify-center">
       <div className="bg-white p-8 rounded-xl shadow-sm w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş yap</h1>
-        <p className="text-gray-500 mb-6 text-sm">Inboxyl hesabına giriş yap</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign in</h1>
+        <p className="text-gray-500 mb-6 text-sm">Sign in to your Inboxyl account</p>
         {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">E-posta</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="ornek@mail.com"
+              placeholder="you@company.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Şifre</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
               type="password"
               value={password}
@@ -58,12 +58,12 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 disabled:opacity-50"
           >
-            {loading ? 'Giriş yapılıyor...' : 'Giriş yap'}
+            {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </div>
         <p className="text-center text-sm text-gray-500 mt-6">
-          Hesabın yok mu?{' '}
-          <Link href="/signup" className="text-orange-500 hover:underline">Kayıt ol</Link>
+          Don't have an account?{' '}
+          <Link href="/signup" className="text-orange-500 hover:underline">Sign up</Link>
         </p>
       </div>
       </div>

@@ -56,6 +56,48 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* WHO IS IT FOR */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="text-center mb-14">
+            <h2 className="text-4xl font-extrabold mb-4">Who is it for?</h2>
+            <p className="text-gray-500 text-lg">Built for anyone who needs to preserve and access email history — anytime, anywhere.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                icon: "🏢",
+                title: "Companies — Current employees",
+                desc: "Turn your entire team's email history into a searchable archive. Find any conversation, contract, or decision made by anyone in your organization."
+              },
+              {
+                icon: "📦",
+                title: "Companies — Former employees",
+                desc: "When someone leaves, their institutional knowledge doesn't have to go with them. Upload their mailbox and keep their email history accessible forever."
+              },
+              {
+                icon: "💼",
+                title: "Employees",
+                desc: "Access your own email archive from any device, outside of office hours, without needing to be connected to your company's systems."
+              },
+              {
+                icon: "👋",
+                title: "People who've moved on",
+                desc: "Left a job but don't want to lose your professional contacts and conversations? Archive your mailbox before you go — your network stays with you."
+              },
+            ].map(item => (
+              <div key={item.title} className="flex gap-5 bg-gray-50 rounded-2xl p-7">
+                <div className="text-3xl shrink-0">{item.icon}</div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                  <p className="text-gray-500 leading-relaxed text-sm">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section id="how" className="max-w-5xl mx-auto px-8 py-24">
         <div className="text-center mb-16">
