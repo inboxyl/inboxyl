@@ -21,7 +21,7 @@ export default function UploadPage() {
 
       const fileType = file.name.endsWith('.pst') ? 'pst' : 'mbox'
 
-      const archiveResult = await supabase.table('archives').insert({
+      const archiveResult = await supabase.from('archives').insert({
         user_id: user.id,
         source: fileType,
         status: 'uploading',
