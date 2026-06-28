@@ -35,23 +35,49 @@ export default function HomePage() {
 
       {/* How it works */}
       <section className="bg-gray-50 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-14">How it works</h2>
-          <div className="grid grid-cols-4 gap-8">
-            {[
-              { emoji: '🔗', step: '01', title: 'Connect your email', desc: 'Securely connect your Gmail, Outlook, or any IMAP account with your credentials.' },
-              { emoji: '📂', step: '02', title: 'Or upload a PST file', desc: 'Already exported your mailbox? Upload a .pst or .mbox file directly — no email login needed.' },
-              { emoji: '⬇️', step: '03', title: 'We download everything', desc: 'We fetch every email, attachment, and contact — compressed and encrypted.' },
-              { emoji: '♾️', step: '04', title: 'Access forever', desc: 'Your archive lives in your account, searchable and downloadable anytime.' },
-            ].map(({ emoji, step, title, desc }) => (
-              <div key={step} className="bg-white rounded-2xl p-8 shadow-sm">
-                <div className="text-5xl mb-4">{emoji}</div>
-                <div className="text-xs font-semibold text-blue-600 mb-2 tracking-widest">STEP {step}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+          {[
+            {
+              n: '01',
+              img: 'https://images.unsplash.com/photo-1484807352052-23338990c6c6?w=600',
+              title: 'Export your mailbox from Outlook',
+              desc: 'In Outlook, go to File → Open & Export → Import/Export → Export to a File. Save your emails as a .pst file to your computer.',
+            },
+            {
+              n: '02',
+              img: 'https://images.unsplash.com/photo-1526378722484-bd91ca387e72?w=600',
+              title: 'Or export from Thunderbird, Gmail or Apple Mail',
+              desc: 'Thunderbird: Right-click your inbox → Export. Gmail: Use Google Takeout at takeout.google.com. Apple Mail: Mailbox → Export Mailbox.',
+            },
+            {
+              n: '03',
+              img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600',
+              title: 'Upload your file to Inboxyl',
+              desc: 'Drag and drop your .pst or .mbox file into Inboxyl. We parse every email, folder, and attachment automatically.',
+            },
+            {
+              n: '04',
+              img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600',
+              title: 'Search, browse and export forever',
+              desc: 'Your emails are organized by company and contact. Search by sender, date or subject. Export to Excel anytime.',
+            },
+          ].map(({ n, img, title, desc }, i) => (
+            <div key={n}>
+              <div className="flex items-center gap-12 py-12">
+                <div className="w-72 shrink-0 rounded-xl overflow-hidden shadow-sm">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt={title} className="w-full h-48 object-cover" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-5xl font-bold text-blue-600 mb-3">{n}</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+                  <p className="text-gray-500 leading-relaxed">{desc}</p>
+                </div>
               </div>
-            ))}
-          </div>
+              {i < 3 && <hr className="border-gray-200" />}
+            </div>
+          ))}
         </div>
       </section>
 
