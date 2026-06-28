@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <button onClick={handleSignOut} className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-gray-800 rounded-lg">Sign out</button>
         </div>
       </aside>
-      <main className="ml-56 flex-1 bg-gray-50">
+      <main className="ml-56 flex-1 bg-gray-50 min-h-screen">
         {children}
       </main>
     </div>

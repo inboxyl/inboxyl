@@ -3,6 +3,13 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
+interface Attachment {
+  id: string
+  filename: string
+  attachment_code: string
+  file_size: number
+}
+
 interface Email {
   id: string
   sender: string
@@ -10,18 +17,20 @@ interface Email {
   subject: string
   body: string
   sent_at: string
+  attachments?: Attachment[]
 }
 
 export default function CompanyDetailPage({ params }: { params: { domain: string } }) {
   const [emails, setEmails] = useState<Email[]>([])
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState('')
+  const [selected, setSelected] = useState<Email | null>(null)
+  const [page, setPage] = useState(1)
+  const PAGE_SIZE = 20
   const router = useRouter()
   const supabase = createClient()
 
-  useEffect(() => {
-    loadEmails()
-  }, [])
+  useEffect(() => { loadEmails() }, [])
 
   async function loadEmails() {
     const { data: { session } } = await supabase.auth.getSession()
@@ -43,7 +52,15 @@ export default function CompanyDetailPage({ params }: { params: { domain: string
       .eq('company_id', company.id)
       .order('sent_at', { ascending: true })
 
-    setEmails(data || [])
+    const emailsWithAttachments = await Promise.all((data || []).map(async (email) => {
+      const { data: atts } = await supabase
+        .from('attachments')
+        .select('id, filename, attachment_code, file_size')
+        .eq('email_id', email.id)
+      return { ...email, attachments: atts || [] }
+    }))
+
+    setEmails(emailsWithAttachments)
     setLoading(false)
   }
 
@@ -51,31 +68,104 @@ export default function CompanyDetailPage({ params }: { params: { domain: string
     return email.sender?.toLowerCase().includes(userEmail.toLowerCase())
   }
 
-  return (
-    <div className="max-w-3xl mx-auto py-10 px-6">
-      <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-700 mb-4 block">← Back</button>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">{decodeURIComponent(params.domain)}</h1>
-      <p className="text-sm text-gray-400 mb-8">{emails.length} emails</p>
+  const visibleEmails = emails.slice(0, page * PAGE_SIZE)
+  const hasMore = visibleEmails.length < emails.length
 
-      {loading ? (
-        <p className="text-gray-400 text-sm">Loading...</p>
-      ) : emails.length === 0 ? (
-        <p className="text-gray-400 text-sm">No emails found.</p>
-      ) : (
-        <div className="space-y-3">
-          {emails.map(email => (
-            <div key={email.id} className={`flex ${isSent(email) ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[75%] rounded-2xl px-4 py-3 ${isSent(email) ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-900'}`}>
-                <p className={`text-xs mb-1 ${isSent(email) ? 'text-orange-100' : 'text-gray-400'}`}>
-                  {isSent(email) ? 'You' : email.sender} · {email.sent_at?.slice(0, 10)}
-                </p>
-                <p className="font-semibold text-sm mb-1">{email.subject}</p>
-                <p className={`text-sm ${isSent(email) ? 'text-orange-50' : 'text-gray-600'}`}>
-                  {email.body?.slice(0, 200)}{email.body?.length > 200 ? '...' : ''}
-                </p>
+  return (
+    <div className="h-screen flex flex-col">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center gap-4">
+        <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-700">← Back</button>
+        <div>
+          <h1 className="text-lg font-bold text-gray-900">{decodeURIComponent(params.domain)}</h1>
+          <p className="text-xs text-gray-400">{emails.length} emails</p>
+        </div>
+      </div>
+
+      {/* Chat area */}
+      <div className="flex-1 overflow-y-auto px-8 py-6 space-y-3">
+        {loading ? (
+          <p className="text-gray-400 text-sm text-center pt-10">Loading...</p>
+        ) : emails.length === 0 ? (
+          <p className="text-gray-400 text-sm text-center pt-10">No emails found.</p>
+        ) : (
+          <>
+            {visibleEmails.map(email => (
+              <div key={email.id} className={`flex ${isSent(email) ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  onClick={() => setSelected(email)}
+                  className={`max-w-[60%] rounded-2xl px-5 py-4 cursor-pointer transition hover:opacity-90 ${isSent(email) ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-900 shadow-sm'}`}
+                >
+                  <div className={`flex items-center gap-3 text-xs mb-2 ${isSent(email) ? 'text-orange-100' : 'text-gray-400'}`}>
+                    <span>{email.sent_at?.slice(0, 10)}</span>
+                    {email.attachments && email.attachments.length > 0 && (
+                      <span>📎 {email.attachments.length}</span>
+                    )}
+                  </div>
+                  <p className="font-semibold text-sm mb-1">{email.subject}</p>
+                  <p className={`text-sm leading-relaxed ${isSent(email) ? 'text-orange-50' : 'text-gray-600'}`}>
+                    {email.body?.slice(0, 120)}{email.body?.length > 120 ? '...' : ''}
+                  </p>
+                </div>
+              </div>
+            ))}
+
+            {hasMore && (
+              <div className="text-center pt-2">
+                <button
+                  onClick={() => setPage(p => p + 1)}
+                  className="text-sm text-orange-500 hover:underline"
+                >
+                  Load more ({emails.length - visibleEmails.length} remaining)
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* POPUP */}
+      {selected && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-6" onClick={() => setSelected(null)}>
+          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="flex items-start justify-between px-6 py-5 border-b border-gray-100">
+              <h2 className="font-bold text-gray-900 text-lg pr-4">{selected.subject}</h2>
+              <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-gray-700 text-xl leading-none">×</button>
+            </div>
+            <div className="px-6 py-4 space-y-2 border-b border-gray-100">
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-400 w-20">From</span>
+                <span className="text-gray-900">{selected.sender}</span>
+              </div>
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-400 w-20">To</span>
+                <span className="text-gray-900">{selected.recipients?.join(', ')}</span>
+              </div>
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-400 w-20">Date</span>
+                <span className="text-gray-900">{new Date(selected.sent_at).toLocaleString()}</span>
               </div>
             </div>
-          ))}
+            <div className="px-6 py-5">
+              <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{selected.body}</p>
+            </div>
+            {selected.attachments && selected.attachments.length > 0 && (
+              <div className="px-6 py-4 border-t border-gray-100">
+                <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Attachments</p>
+                <div className="space-y-2">
+                  {selected.attachments.map(att => (
+                    <div key={att.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-2.5">
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{att.filename}</p>
+                        <p className="text-xs text-gray-400">{(att.file_size / 1024).toFixed(1)} KB · Code: {att.attachment_code}</p>
+                      </div>
+                      <span className="text-xs bg-orange-100 text-orange-600 font-bold px-2 py-1 rounded">{att.attachment_code}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
