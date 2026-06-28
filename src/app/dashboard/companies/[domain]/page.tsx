@@ -119,12 +119,12 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ domain
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center gap-4">
-        <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-700">← Back</button>
-        <div>
-          <h1 className="text-lg font-bold text-gray-900">{decodeURIComponent(domain)}</h1>
-          <p className="text-xs text-gray-400">{emails.length} emails</p>
-        </div>
+      <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center gap-2 text-sm">
+        <a href="/dashboard" className="text-gray-400 hover:text-gray-700">Dashboard</a>
+        <span className="text-gray-300">/</span>
+        <a href="/dashboard/companies" className="text-gray-400 hover:text-gray-700">Companies</a>
+        <span className="text-gray-300">/</span>
+        <span className="text-gray-900 font-medium">{domain}</span>
       </div>
 
       {/* Chat area */}

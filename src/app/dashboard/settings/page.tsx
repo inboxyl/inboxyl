@@ -34,7 +34,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl py-8 px-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-8">Settings</h1>
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">

@@ -29,52 +29,45 @@ export default function CompaniesPage() {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) { router.push('/login'); return }
 
-    const { data: companiesData } = await supabase
-      .from('companies')
-      .select('id, domain, name')
-      .eq('user_id', session.user.id)
-      .order('domain')
-
-    if (!companiesData) { setLoading(false); return }
-
-    let emailQuery = supabase
+    const { data } = await supabase
       .from('emails')
-      .select('company_id, sent_at')
+      .select('company_id, sent_at, companies(id, domain, name)')
       .eq('user_id', session.user.id)
 
-    if (search.sender) emailQuery = emailQuery.ilike('sender', `%${search.sender}%`)
-    if (search.recipient) emailQuery = emailQuery.ilike('recipients', `%${search.recipient}%`)
-    if (search.subject) emailQuery = emailQuery.ilike('subject', `%${search.subject}%`)
-    if (search.body) emailQuery = emailQuery.ilike('body', `%${search.body}%`)
-    if (search.dateFrom) emailQuery = emailQuery.gte('sent_at', search.dateFrom)
-    if (search.dateTo) emailQuery = emailQuery.lte('sent_at', search.dateTo)
+    if (!data) { setLoading(false); return }
 
-    const { data: emailsData } = await emailQuery
+    let filtered = data
+    if (search.sender) filtered = filtered.filter(e => (e as any).sender?.toLowerCase().includes(search.sender.toLowerCase()))
+    if (search.subject) filtered = filtered.filter(e => (e as any).subject?.toLowerCase().includes(search.subject.toLowerCase()))
+    if (search.dateFrom) filtered = filtered.filter(e => e.sent_at >= search.dateFrom)
+    if (search.dateTo) filtered = filtered.filter(e => e.sent_at <= search.dateTo)
 
-    const emailsByCompany = (emailsData || []).reduce((acc, e) => {
-      if (!acc[e.company_id]) acc[e.company_id] = []
-      acc[e.company_id].push(e.sent_at)
-      return acc
-    }, {} as Record<string, string[]>)
+    const map: Record<string, any> = {}
+    for (const e of filtered) {
+      const c = (e as any).companies
+      if (!c) continue
+      if (!map[c.id]) map[c.id] = { ...c, dates: [] }
+      map[c.id].dates.push(e.sent_at)
+    }
 
-    const enriched = companiesData
-      .map(c => {
-        const dates = (emailsByCompany[c.id] || []).sort()
-        return {
-          ...c,
-          email_count: dates.length,
-          first_email: dates.length ? dates[0].slice(0, 10) : '-',
-          last_email: dates.length ? dates[dates.length - 1].slice(0, 10) : '-',
-        }
-      })
-      .filter(c => c.email_count > 0)
+    const enriched = Object.values(map).map((c: any) => {
+      const sorted = c.dates.sort()
+      return {
+        id: c.id,
+        domain: c.domain,
+        name: c.name,
+        email_count: sorted.length,
+        first_email: sorted[0]?.slice(0, 10) || '-',
+        last_email: sorted[sorted.length - 1]?.slice(0, 10) || '-',
+      }
+    }).sort((a, b) => b.email_count - a.email_count)
 
     setCompanies(enriched)
     setLoading(false)
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-6">
+    <div className="max-w-5xl mx-auto py-10 px-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Companies</h1>
 
       {/* Search */}

@@ -70,7 +70,7 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-12 px-4">
+    <div className="max-w-2xl mx-auto py-12 px-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Upload your mailbox file</h1>
       <p className="text-gray-500 mb-8 text-sm">Supported formats: .pst (Outlook), .mbox (Gmail, Thunderbird, Apple Mail)</p>
 
