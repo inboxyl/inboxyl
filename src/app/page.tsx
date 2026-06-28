@@ -20,14 +20,14 @@ export default function Home() {
           <div className="flex-1 text-left">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-8 backdrop-blur-sm">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              No password required — just upload your mailbox file
+              No password required — just upload the PST or MBOX file
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
-              Leave your job.<br />
-              <span className="text-orange-200">Keep your contacts.</span>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
+              Former employees' emails.<br />
+              <span className="text-orange-200">Not a trouble anymore.</span>
             </h1>
             <p className="text-xl text-orange-100 mb-10 max-w-xl leading-relaxed">
-              Upload your Outlook or Thunderbird mailbox file. We organize every email, contact, and attachment — forever yours.
+              Upload ex-employees' Outlook or Thunderbird mailbox files. Every email, contact, and attachment — organized by company, searchable forever.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/signup" className="bg-white text-orange-600 font-bold px-8 py-4 rounded-xl text-lg hover:bg-orange-50 transition">
@@ -54,7 +54,7 @@ export default function Home() {
       <section id="how" className="max-w-5xl mx-auto px-8 py-24">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold mb-4">How it works</h2>
-          <p className="text-gray-500 text-lg">Three simple steps to archive your entire email history.</p>
+          <p className="text-gray-500 text-lg">Three simple steps to archive your former employees' entire email history.</p>
         </div>
 
         <div className="space-y-16">
@@ -66,7 +66,7 @@ export default function Home() {
             </div>
             <div className="flex-1">
               <div className="text-5xl font-extrabold text-orange-100 mb-2">01</div>
-              <h3 className="text-2xl font-bold mb-3">Export from your email client</h3>
+              <h3 className="text-2xl font-bold mb-3">Export the former employee's mailbox</h3>
               <p className="text-gray-500 leading-relaxed">Export your mailbox from any email client as a <strong>.pst</strong> or <strong>.mbox</strong> file.</p>
               <ul className="mt-4 space-y-2">
                 {[
@@ -137,7 +137,7 @@ export default function Home() {
             <div className="flex-1">
               <div className="text-5xl font-extrabold text-orange-100 mb-2">03</div>
               <h3 className="text-2xl font-bold mb-3">Search, browse and export</h3>
-              <p className="text-gray-500 leading-relaxed">Your emails are organized by company and contact. Search by sender, date or subject. Export everything to <strong>Excel + ZIP</strong> with attachment codes anytime.</p>
+              <p className="text-gray-500 leading-relaxed">Employee emails are organized by company and contact. Search by sender, date or subject. Export everything to <strong>Excel + ZIP</strong> with attachment codes anytime.</p>
             </div>
           </div>
         </div>
