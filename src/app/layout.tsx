@@ -8,18 +8,14 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Inboxyl",
-  description: "Download and archive all your emails before you go. Forever yours.",
+  title: "Inboxyl — Keep your contacts forever",
+  description: "Download and archive all your emails before you leave your job.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${jakarta.className} antialiased min-h-full flex flex-col`}>{children}</body>
+    <html lang="en">
+      <body className={`${jakarta.className} antialiased`}>{children}</body>
     </html>
   );
 }
