@@ -8,8 +8,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Inboxyl — Keep your contacts forever",
-  description: "Download and archive all your emails before you leave your job.",
+  title: "Inboxyl — Former employees' emails, not a trouble anymore",
+  description: "Upload PST or MBOX files and turn former employee mailboxes into a searchable archive. Built for HR, Legal, and IT teams.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
