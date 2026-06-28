@@ -37,11 +37,12 @@ export default function HomePage() {
       <section className="bg-gray-50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-14">How it works</h2>
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-4 gap-8">
             {[
               { emoji: '🔗', step: '01', title: 'Connect your email', desc: 'Securely connect your Gmail, Outlook, or any IMAP account with your credentials.' },
-              { emoji: '⬇️', step: '02', title: 'We download everything', desc: 'We fetch every email, attachment, and contact — compressed and encrypted.' },
-              { emoji: '♾️', step: '03', title: 'Access forever', desc: 'Your archive lives in your account, searchable and downloadable anytime.' },
+              { emoji: '📂', step: '02', title: 'Or upload a PST file', desc: 'Already exported your mailbox? Upload a .pst or .mbox file directly — no email login needed.' },
+              { emoji: '⬇️', step: '03', title: 'We download everything', desc: 'We fetch every email, attachment, and contact — compressed and encrypted.' },
+              { emoji: '♾️', step: '04', title: 'Access forever', desc: 'Your archive lives in your account, searchable and downloadable anytime.' },
             ].map(({ emoji, step, title, desc }) => (
               <div key={step} className="bg-white rounded-2xl p-8 shadow-sm">
                 <div className="text-5xl mb-4">{emoji}</div>
@@ -104,7 +105,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <span className="text-sm text-gray-400">© 2025 Inboxyl</span>
+          <span className="text-sm text-gray-400">© 2026 Inboxyl</span>
           <div className="flex gap-6">
             <Link href="/terms" className="text-sm text-gray-400 hover:text-gray-700">Terms</Link>
             <Link href="/privacy" className="text-sm text-gray-400 hover:text-gray-700">Privacy</Link>
