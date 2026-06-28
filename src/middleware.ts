@@ -1,7 +1,9 @@
-export const runtime = 'nodejs'
-
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+
+export const config = {
+  matcher: ['/dashboard/:path*', '/login', '/signup'],
+}
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
@@ -32,8 +34,4 @@ export async function middleware(request: NextRequest) {
   }
 
   return supabaseResponse
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
 }
