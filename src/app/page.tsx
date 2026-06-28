@@ -16,30 +16,36 @@ export default function Home() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
-        <div className="relative max-w-6xl mx-auto px-8 py-28 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-8 backdrop-blur-sm">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            No password required — just upload your mailbox file
+        <div className="relative max-w-6xl mx-auto px-8 py-28 flex flex-col md:flex-row items-center gap-16">
+          <div className="flex-1 text-left">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-8 backdrop-blur-sm">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              No password required — just upload your mailbox file
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
+              Leave your job.<br />
+              <span className="text-blue-200">Keep your contacts.</span>
+            </h1>
+            <p className="text-xl text-blue-100 mb-10 max-w-xl leading-relaxed">
+              Upload your Outlook or Thunderbird mailbox file. We organize every email, contact, and attachment — forever yours.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/signup" className="bg-white text-blue-700 font-bold px-8 py-4 rounded-xl text-lg hover:bg-blue-50 transition">
+                Get Started Free →
+              </Link>
+              <a href="#how" className="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-white/10 transition">
+                See how it works
+              </a>
+            </div>
+            <div className="mt-12 flex items-center gap-8 text-sm text-blue-200">
+              <span>✓ No email password needed</span>
+              <span>✓ PST & MBOX supported</span>
+              <span>✓ Export to Excel anytime</span>
+            </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
-            Leave your job.<br />
-            <span className="text-blue-200">Keep your contacts.</span>
-          </h1>
-          <p className="text-xl text-blue-100 mb-10 max-w-xl leading-relaxed">
-            Upload your Outlook or Thunderbird mailbox file. We organize every email, contact, and attachment — forever yours.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/signup" className="bg-white text-blue-700 font-bold px-8 py-4 rounded-xl text-lg hover:bg-blue-50 transition">
-              Get Started Free →
-            </Link>
-            <a href="#how" className="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-white/10 transition">
-              See how it works
-            </a>
-          </div>
-          <div className="mt-12 flex items-center gap-8 text-sm text-blue-200">
-            <span>✓ No email password needed</span>
-            <span>✓ PST & MBOX supported</span>
-            <span>✓ Export to Excel anytime</span>
+          <div className="flex-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/head.jpg" alt="Leave your job happy" className="w-full h-[500px] object-cover rounded-2xl shadow-xl" />
           </div>
         </div>
       </section>
