@@ -59,6 +59,19 @@ def parse_mbox(filepath: str, user_id: str, archive_id: str):
         process_message(msg, user_id, archive_id, attachment_index)
         attachment_index += 10
 
+def parse_pst(filepath: str, user_id: str, archive_id: str):
+    import subprocess
+    import os
+    import glob
+
+    out_dir = filepath + "_extracted"
+    os.makedirs(out_dir, exist_ok=True)
+
+    subprocess.run(["readpst", "-r", "-o", out_dir, filepath], check=True)
+
+    for mbox_file in glob.glob(f"{out_dir}/**/*.mbox", recursive=True):
+        parse_mbox(mbox_file, user_id, archive_id)
+
 def process_message(msg, user_id: str, archive_id: str, att_index: int):
     sender = msg.get("From", "")
     recipients = [msg.get("To", "")]
@@ -137,7 +150,7 @@ def parse(req: ParseRequest):
         if req.file_type == "mbox":
             parse_mbox(tmp_path, req.user_id, req.archive_id)
         else:
-            raise HTTPException(status_code=400, detail="PST support coming soon")
+            parse_pst(tmp_path, req.user_id, req.archive_id)
 
         supabase.table("archives").update({"status": "done"}).eq("id", req.archive_id).execute()
         return {"status": "done"}
