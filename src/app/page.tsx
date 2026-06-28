@@ -33,7 +33,7 @@ export default async function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/signup" className="bg-white text-orange-600 font-bold px-8 py-4 rounded-xl text-lg hover:bg-orange-50 transition">
-                Get Started Free →
+                Get Started →
               </Link>
               <a href="#how" className="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-white/10 transition">
                 See how it works
@@ -53,7 +53,7 @@ export default async function Home() {
       </section>
 
       {/* WHO IS IT FOR */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-100">
         <div className="max-w-5xl mx-auto px-8">
           <div className="text-center mb-14">
             <h2 className="text-4xl font-extrabold mb-4">Who is it for?</h2>
@@ -110,8 +110,8 @@ export default async function Home() {
             </div>
             <div className="flex-1">
               <div className="text-5xl font-extrabold text-orange-100 mb-2">01</div>
-              <h3 className="text-2xl font-bold mb-3">Export the former employee's mailbox</h3>
-              <p className="text-gray-500 leading-relaxed">Export your mailbox from any email client as a <strong>.pst</strong> or <strong>.mbox</strong> file.</p>
+              <h3 className="text-2xl font-bold mb-3">Export the mailbox</h3>
+              <p className="text-gray-500 leading-relaxed">Export any mailbox from any email client as a <strong>.pst</strong> or <strong>.mbox</strong> file.</p>
               <ul className="mt-4 space-y-2">
                 {[
                   'Outlook: File → Open & Export → Import/Export → "Export to a File" → .pst olarak kaydet. Tüm klasörleri, ekleri ve kişileri içerir.',
@@ -181,14 +181,14 @@ export default async function Home() {
             <div className="flex-1">
               <div className="text-5xl font-extrabold text-orange-100 mb-2">03</div>
               <h3 className="text-2xl font-bold mb-3">Search, browse and export</h3>
-              <p className="text-gray-500 leading-relaxed">Employee emails are organized by company and contact. Search by sender, date or subject. Export everything to <strong>Excel + ZIP</strong> with attachment codes anytime.</p>
+              <p className="text-gray-500 leading-relaxed">Single or multiple employee emails are organized by company and contact. Search by sender, date or subject. Export everything to <strong>Excel + ZIP</strong> with attachment codes anytime.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* PRICING */}
-      <section className="bg-gray-50 py-24">
+      <section className="bg-gray-100 py-24">
         <div className="max-w-5xl mx-auto px-8">
           <div className="text-center mb-14">
             <h2 className="text-4xl font-extrabold mb-4">Simple pricing</h2>
@@ -205,7 +205,10 @@ export default async function Home() {
                 {plan.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most popular</div>}
                 <div className="text-sm font-semibold text-gray-400 mb-1">{plan.name}</div>
                 <div className="text-3xl font-extrabold mb-1">{plan.price}</div>
-                <div className="text-sm text-gray-400 mb-5">per month · {plan.gb}</div>
+                <div className="text-sm text-gray-400 mb-5">
+                  per up to a month<br/>
+                  {plan.gb} storage
+                </div>
                 <Link href="/signup" className={`block text-center py-2.5 rounded-lg text-sm font-semibold transition ${plan.popular ? "bg-orange-500 text-white hover:bg-orange-600" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
                   Get started
                 </Link>
