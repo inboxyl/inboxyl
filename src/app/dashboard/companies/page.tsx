@@ -43,7 +43,7 @@ export default function CompaniesPage() {
       .eq('user_id', session.user.id)
 
     if (search.sender) emailQuery = emailQuery.ilike('sender', `%${search.sender}%`)
-    if (search.recipient) emailQuery = emailQuery.contains('recipients', [search.recipient])
+    if (search.recipient) emailQuery = emailQuery.ilike('recipients', `%${search.recipient}%`)
     if (search.subject) emailQuery = emailQuery.ilike('subject', `%${search.subject}%`)
     if (search.body) emailQuery = emailQuery.ilike('body', `%${search.body}%`)
     if (search.dateFrom) emailQuery = emailQuery.gte('sent_at', search.dateFrom)
@@ -59,7 +59,7 @@ export default function CompaniesPage() {
 
     const enriched = companiesData
       .map(c => {
-        const dates = emailsByCompany[c.id] || []
+        const dates = (emailsByCompany[c.id] || []).sort()
         return {
           ...c,
           email_count: dates.length,
