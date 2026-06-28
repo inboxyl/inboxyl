@@ -58,9 +58,9 @@ export default function SettingsPage() {
       <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
         <h2 className="font-bold text-gray-900 mb-4">Export data</h2>
         <p className="text-sm text-gray-500 mb-4">Download all your emails and attachments as Excel + ZIP.</p>
-        <button className="bg-green-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
+        <a href="/api/export" download className="inline-block bg-green-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
           Download Excel + ZIP
-        </button>
+        </a>
       </div>
 
       <div className="bg-white rounded-xl border border-red-100 p-6">
