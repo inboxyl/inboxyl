@@ -20,19 +20,25 @@ interface Email {
   attachments?: Attachment[]
 }
 
-export default function CompanyDetailPage({ params }: { params: { domain: string } }) {
+export default function CompanyDetailPage({ params }: { params: Promise<{ domain: string }> }) {
   const [emails, setEmails] = useState<Email[]>([])
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState('')
   const [selected, setSelected] = useState<Email | null>(null)
   const [page, setPage] = useState(1)
+  const [domain, setDomain] = useState('')
   const PAGE_SIZE = 20
   const router = useRouter()
   const supabase = createClient()
 
-  useEffect(() => { loadEmails() }, [])
+  useEffect(() => {
+    params.then(p => {
+      setDomain(p.domain)
+      loadEmails(p.domain)
+    })
+  }, [])
 
-  async function loadEmails() {
+  async function loadEmails(domainParam: string) {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) { router.push('/login'); return }
     setUserEmail(session.user.email || '')
@@ -41,7 +47,7 @@ export default function CompanyDetailPage({ params }: { params: { domain: string
       .from('companies')
       .select('id')
       .eq('user_id', session.user.id)
-      .eq('domain', decodeURIComponent(params.domain))
+      .eq('domain', decodeURIComponent(domainParam))
       .single()
 
     if (!company) { setLoading(false); return }
@@ -77,7 +83,7 @@ export default function CompanyDetailPage({ params }: { params: { domain: string
       <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center gap-4">
         <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-700">← Back</button>
         <div>
-          <h1 className="text-lg font-bold text-gray-900">{decodeURIComponent(params.domain)}</h1>
+          <h1 className="text-lg font-bold text-gray-900">{decodeURIComponent(domain)}</h1>
           <p className="text-xs text-gray-400">{emails.length} emails</p>
         </div>
       </div>
