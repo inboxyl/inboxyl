@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null)
@@ -8,6 +9,7 @@ export default function UploadPage() {
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   async function handleUpload() {
     if (!file) return
@@ -16,8 +18,9 @@ export default function UploadPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not logged in')
+      const { data: { session } } = await supabase.auth.getSession()
+      const user = session?.user
+      if (!user) { router.push('/login'); return }
 
       const fileType = file.name.endsWith('.pst') ? 'pst' : 'mbox'
 
