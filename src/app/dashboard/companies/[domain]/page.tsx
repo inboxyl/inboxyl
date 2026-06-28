@@ -24,6 +24,7 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ domain
   const [emails, setEmails] = useState<Email[]>([])
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState('')
+  const [mailboxEmail, setMailboxEmail] = useState('')
   const [selected, setSelected] = useState<Email | null>(null)
   const [page, setPage] = useState(1)
   const [domain, setDomain] = useState('')
@@ -67,11 +68,22 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ domain
     }))
 
     setEmails(emailsWithAttachments)
+
+    const { data: archive } = await supabase
+      .from('archives')
+      .select('mailbox_email')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (archive?.mailbox_email) setMailboxEmail(archive.mailbox_email)
+
     setLoading(false)
   }
 
   function isSent(email: Email) {
-    return email.sender?.toLowerCase().includes(userEmail.toLowerCase())
+    return email.sender?.toLowerCase().includes(mailboxEmail.toLowerCase())
   }
 
   const visibleEmails = emails.slice(0, page * PAGE_SIZE)

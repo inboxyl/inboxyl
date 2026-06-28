@@ -8,6 +8,7 @@ export default function UploadPage() {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'parsing' | 'done' | 'error'>('idle')
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
+  const [mailboxEmail, setMailboxEmail] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
@@ -28,6 +29,7 @@ export default function UploadPage() {
         user_id: user.id,
         source: fileType,
         status: 'uploading',
+        mailbox_email: mailboxEmail,
       }).select().single()
 
       if (archiveResult.error) {
@@ -80,6 +82,20 @@ export default function UploadPage() {
         </div>
       ) : (
         <>
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Mailbox email address
+            </label>
+            <input
+              type="email"
+              value={mailboxEmail}
+              onChange={e => setMailboxEmail(e.target.value)}
+              placeholder="owner@example.com"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            />
+            <p className="text-xs text-gray-400 mt-1">The email address this mailbox belongs to — used to identify sent vs received emails.</p>
+          </div>
+
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true) }}
             onDragLeave={() => setDragging(false)}
@@ -109,7 +125,7 @@ export default function UploadPage() {
 
           <button
             onClick={handleUpload}
-            disabled={!file || status === 'uploading' || status === 'parsing'}
+            disabled={!file || !mailboxEmail || status === 'uploading' || status === 'parsing'}
             className="mt-6 w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-40 transition"
           >
             {status === 'uploading' ? 'Uploading...' : status === 'parsing' ? 'Parsing...' : 'Upload & Import'}
