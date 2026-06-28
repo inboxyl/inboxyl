@@ -75,10 +75,17 @@ export default function CompaniesPage() {
               type={key.startsWith('date') ? 'date' : 'text'}
               value={search[key as keyof typeof search]}
               onChange={e => setSearch(s => ({ ...s, [key]: e.target.value }))}
+              onKeyDown={e => e.key === 'Enter' && loadCompanies()}
               className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
         ))}
+        <button
+          onClick={loadCompanies}
+          className="col-span-2 md:col-span-3 bg-orange-500 text-white py-2 rounded-lg text-sm font-semibold hover:bg-orange-600"
+        >
+          Search
+        </button>
       </div>
 
       {/* Table */}
