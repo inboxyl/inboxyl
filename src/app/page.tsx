@@ -26,14 +26,14 @@ export default async function Home() {
           <div className="flex-1 text-left">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-8 backdrop-blur-sm">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              No password required — just upload the PST or MBOX file
+              PST & MBOX supported — no email password required
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
-              Former employees' emails.<br />
+              Company emails database.<br />
               <span className="text-orange-200">Not a trouble anymore.</span>
             </h1>
             <p className="text-xl text-orange-100 mb-10 max-w-xl leading-relaxed">
-              Upload ex-employees' Outlook or Thunderbird mailbox files. Every email, contact, and attachment — organized by company, searchable forever.
+              Upload your own, your current or former employees' Outlook or Thunderbird mailbox files. Every email, contact, and attachment — organized by company, searchable forever.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/signup" className="bg-white text-orange-600 font-bold px-8 py-4 rounded-xl text-lg hover:bg-orange-50 transition">
