@@ -30,6 +30,10 @@ export default function UploadPage() {
         status: 'uploading',
       }).select().single()
 
+      if (archiveResult.error) {
+        throw new Error('Archive insert failed: ' + archiveResult.error.message)
+      }
+
       const archive = archiveResult.data
       const r2Key = `${user.id}/${archive.id}/${file.name}`
 
