@@ -62,8 +62,9 @@ export async function GET() {
   zip.file('emails.xlsx', xlsxBuffer)
 
   const zipBuffer = await zip.generateAsync({ type: 'uint8array' })
+  const blob = new Blob([zipBuffer], { type: 'application/zip' })
 
-  return new NextResponse(zipBuffer, {
+  return new NextResponse(blob, {
     headers: {
       'Content-Type': 'application/zip',
       'Content-Disposition': 'attachment; filename="inboxyl-export.zip"',
