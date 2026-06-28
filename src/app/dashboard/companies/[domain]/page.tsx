@@ -20,6 +20,33 @@ interface Email {
   attachments?: Attachment[]
 }
 
+function SendButton({ emailId }: { emailId: string }) {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
+
+  async function handleSend() {
+    setStatus('sending')
+    const res = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ emailId }),
+    })
+    setStatus(res.ok ? 'done' : 'error')
+  }
+
+  return (
+    <button
+      onClick={handleSend}
+      disabled={status === 'sending' || status === 'done'}
+      className="w-full bg-orange-500 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-orange-600 disabled:opacity-50"
+    >
+      {status === 'idle' && '📨 Send to me'}
+      {status === 'sending' && 'Sending...'}
+      {status === 'done' && '✅ Sent to your email'}
+      {status === 'error' && '❌ Failed — try again'}
+    </button>
+  )
+}
+
 export default function CompanyDetailPage({ params }: { params: Promise<{ domain: string }> }) {
   const [emails, setEmails] = useState<Email[]>([])
   const [loading, setLoading] = useState(true)
@@ -183,6 +210,9 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ domain
                 </div>
               </div>
             )}
+            <div className="px-6 py-4 border-t border-gray-100">
+              <SendButton emailId={selected.id} />
+            </div>
           </div>
         </div>
       )}
