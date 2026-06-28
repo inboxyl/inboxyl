@@ -22,12 +22,8 @@ export default async function Home() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
-        <div className="relative max-w-6xl mx-auto px-8 py-28 flex flex-col md:flex-row items-center gap-16">
+        <div className="relative max-w-6xl mx-auto px-8 py-24 flex flex-col md:flex-row items-start gap-16">
           <div className="flex-1 text-left">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm mb-8 backdrop-blur-sm">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              PST & MBOX supported — no email password required
-            </div>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
               Company emails database.<br />
               <span className="text-orange-200">Not a trouble anymore.</span>
@@ -51,7 +47,7 @@ export default async function Home() {
           </div>
           <div className="flex-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/head.jpg" alt="Leave your job happy" className="w-full h-[500px] object-cover rounded-2xl shadow-xl" />
+            <img src="/head.jpg" alt="Company email archive" className="w-full h-[500px] object-cover rounded-2xl shadow-xl" />
           </div>
         </div>
       </section>
