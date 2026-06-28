@@ -1,41 +1,74 @@
-export default function SettingsPage() {
-  return (
-    <div className="max-w-xl space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
-      {/* Account */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <h2 className="text-base font-semibold text-gray-900 mb-4">Account</h2>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs text-gray-500 mb-0.5">Email address</p>
-            <p className="text-sm font-medium text-gray-900">user@example.com</p>
-          </div>
-          <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:border-orange-500 hover:text-orange-500 transition-colors">
-            Change Password
-          </button>
-        </div>
+export default function SettingsPage() {
+  const [email, setEmail] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) { router.push('/login'); return }
+      setEmail(session.user.email || '')
+    })
+  }, [])
+
+  async function handlePasswordChange() {
+    setLoading(true)
+    setMessage('')
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    setLoading(false)
+    setMessage(error ? error.message : 'Password updated successfully.')
+    setNewPassword('')
+  }
+
+  async function handleDeleteAccount() {
+    if (!confirm('Are you sure? This will permanently delete your account and all data.')) return
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
+  return (
+    <div className="max-w-xl">
+      <h1 className="text-2xl font-bold text-gray-900 mb-8">Settings</h1>
+
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <h2 className="font-bold text-gray-900 mb-4">Account</h2>
+        <div className="text-sm text-gray-500 mb-1">Email address</div>
+        <div className="text-gray-900 font-medium">{email}</div>
       </div>
 
-      {/* Export */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <h2 className="text-base font-semibold text-gray-900 mb-2">Export Data</h2>
-        <p className="text-sm text-gray-500 mb-5">
-          Download all your emails as an Excel spreadsheet along with a ZIP of all attachments.
-        </p>
-        <button className="bg-green-600 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors">
-          Download Excel + Attachments ZIP
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <h2 className="font-bold text-gray-900 mb-4">Change password</h2>
+        {message && <div className={`text-sm p-3 rounded-lg mb-4 ${message.includes('success') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>{message}</div>}
+        <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)}
+          placeholder="New password"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 mb-3" />
+        <button onClick={handlePasswordChange} disabled={loading || !newPassword}
+          className="bg-orange-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 disabled:opacity-50">
+          {loading ? 'Updating...' : 'Update password'}
         </button>
       </div>
 
-      {/* Danger zone */}
-      <div className="bg-white rounded-2xl border border-red-100 p-6">
-        <h2 className="text-base font-semibold text-red-600 mb-2">Danger Zone</h2>
-        <p className="text-sm text-gray-500 mb-5">
-          Permanently delete your account and all associated data. This action cannot be undone.
-        </p>
-        <button className="border border-red-500 text-red-600 px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-red-50 transition-colors">
-          Delete Account
+      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+        <h2 className="font-bold text-gray-900 mb-4">Export data</h2>
+        <p className="text-sm text-gray-500 mb-4">Download all your emails and attachments as Excel + ZIP.</p>
+        <button className="bg-green-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
+          Download Excel + ZIP
+        </button>
+      </div>
+
+      <div className="bg-white rounded-xl border border-red-100 p-6">
+        <h2 className="font-bold text-red-600 mb-4">Danger zone</h2>
+        <p className="text-sm text-gray-500 mb-4">Permanently delete your account and all associated data.</p>
+        <button onClick={handleDeleteAccount}
+          className="border border-red-500 text-red-500 px-5 py-2 rounded-lg text-sm font-semibold hover:bg-red-50">
+          Delete account
         </button>
       </div>
     </div>

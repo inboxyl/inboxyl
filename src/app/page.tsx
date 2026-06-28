@@ -22,7 +22,7 @@ export default function Home() {
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               No password required — just upload the PST or MBOX file
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 max-w-4xl">
               Former employees' emails.<br />
               <span className="text-orange-200">Not a trouble anymore.</span>
             </h1>

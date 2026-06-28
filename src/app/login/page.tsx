@@ -22,7 +22,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <nav className="px-8 py-5 flex items-center">
+        <Link href="/" className="text-xl font-extrabold text-gray-900">Inboxyl</Link>
+      </nav>
+      <div className="flex-1 flex items-center justify-center">
       <div className="bg-white p-8 rounded-xl shadow-sm w-full max-w-md">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş yap</h1>
         <p className="text-gray-500 mb-6 text-sm">Inboxyl hesabına giriş yap</p>
@@ -61,6 +65,7 @@ export default function LoginPage() {
           Hesabın yok mu?{' '}
           <Link href="/signup" className="text-orange-500 hover:underline">Kayıt ol</Link>
         </p>
+      </div>
       </div>
     </div>
   )
