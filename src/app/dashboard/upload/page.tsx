@@ -9,11 +9,12 @@ export default function UploadPage() {
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
   const [mailboxEmail, setMailboxEmail] = useState('')
+  const [uploadProgress, setUploadProgress] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
   async function handleUpload() {
-    if (!file) return
+    if (!file || !mailboxEmail) return
     setStatus('uploading')
     setError('')
 
@@ -32,9 +33,7 @@ export default function UploadPage() {
         mailbox_email: mailboxEmail,
       }).select().single()
 
-      if (archiveResult.error) {
-        throw new Error('Archive insert failed: ' + archiveResult.error.message)
-      }
+      if (archiveResult.error) throw new Error('Archive insert failed: ' + archiveResult.error.message)
 
       const archive = archiveResult.data
       const r2Key = `${user.id}/${archive.id}/${file.name}`
@@ -46,9 +45,21 @@ export default function UploadPage() {
       })
       const { url } = await presignRes.json()
 
-      await fetch(url, { method: 'PUT', body: file })
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('PUT', url)
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setUploadProgress(Math.round((e.loaded / e.total) * 100))
+          }
+        }
+        xhr.onload = () => xhr.status === 200 ? resolve() : reject(new Error('Upload failed'))
+        xhr.onerror = () => reject(new Error('Upload failed'))
+        xhr.send(file)
+      })
 
       setStatus('parsing')
+      setUploadProgress(100)
 
       await fetch(`${process.env.NEXT_PUBLIC_PARSER_URL}/parse`, {
         method: 'POST',
@@ -119,10 +130,34 @@ export default function UploadPage() {
             )}
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
-
-          {status === 'uploading' && <p className="text-orange-500 text-sm mt-4">⬆️ Uploading file...</p>}
-          {status === 'parsing' && <p className="text-orange-500 text-sm mt-4">⚙️ Parsing emails... this may take a few minutes.</p>}
+          {status === 'uploading' && (
+            <div className="mt-4">
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-orange-500">Uploading...</span>
+                <span className="text-gray-400">{uploadProgress}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-orange-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
+          {status === 'parsing' && (
+            <div className="mt-4">
+              <div className="flex items-center gap-2 text-orange-500 text-sm">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                </svg>
+                Parsing emails... this may take a few minutes for large files.
+              </div>
+            </div>
+          )}
+          {status === 'error' && (
+            <p className="text-red-500 text-sm mt-3">{error}</p>
+          )}
 
           <button
             onClick={handleUpload}
